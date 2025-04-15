@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paint</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="stylesheet" href="src/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div id="toolbar">
+      <div class="actions">
+        <button id="save" title="Save as PNG">
+          <span><i class="fa fa-save"></i></span>
+        </button>
+        <button id="clear" title="Clear all">
+          <span><i class="fa fa-trash"></i></span>
+        </button>
+        <button id="undo" title="Undo">
+          <span><i class="fa fa-undo"></i></span>
+        </button>
+      </div>
+      <div class="shape-btns">
+        <button id="eraser" title="Eraser">
+          <span> <i class="fa fa-eraser"></i></span>
+        </button>
+        <button id="pen" class="selected" title="Pen">
+          <span><i class="fa fa-pen"></i></span>
+        </button>
+        <button id="line" title="Line">
+          <span class="custom-icon-parent">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 10 9"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line
+                y1="-0.5"
+                x2="8.09392"
+                y2="-0.5"
+                transform="matrix(0.772185 0.635398 -0.613941 0.789352 1.25 2.57129)"
+                stroke="currentColor"
+              />
+              <ellipse
+                cx="1.875"
+                cy="1.92857"
+                rx="1.875"
+                ry="1.92857"
+                fill="currentColor"
+              />
+              <ellipse
+                cx="8.125"
+                cy="7.07115"
+                rx="1.875"
+                ry="1.92857"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+        </button>
+        <button id="rect" title="Rectangle">
+          <span><i class="fa-regular fa-square"></i></span>
+        </button>
+        <button title="Right triangle" id="triangle_right">
+          <span class="custom-icon-parent"
+            ><svg
+              width="16"
+              height="13"
+              viewBox="0 0 16 13"
+              fill="none"
+              stroke-width="1.5"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.71101 1.21349L14.5004 11.612C14.8655 11.909 14.6556 12.5 14.1849 12.5H1.39284C1.11665 12.5 0.892769 12.2761 0.892842 11.9999L0.895582 1.60131C0.895693 1.18027 1.38433 0.947877 1.71101 1.21349Z"
+                stroke="currentColor"
+              />
+            </svg>
+          </span>
+        </button>
+        <button title="Isoceles triangle" id="triangle_isoceles">
+          <span class="custom-icon-parent"
+            ><svg
+              width="17"
+              height="15"
+              viewBox="0 0 15 10"
+              fill="none"
+              stroke-width="1.5"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.40148 1.37972L13.208 9.20198C13.4529 9.5319 13.2174 10 12.8065 10H1.19348C0.782593 10 0.547096 9.5319 0.792001 9.20198L6.59852 1.37972C6.79843 1.11041 7.20157 1.11041 7.40148 1.37972Z"
+                stroke="currentColor"
+              />
+            </svg>
+          </span>
+        </button>
+        <button id="circle">
+          <span><i class="fa-regular fa-circle"></i> </span>
+        </button>
+      </div>
+
+      <div>
+        <label for="thickness">Thickness</label>
+        <input
+          type="range"
+          name=""
+          value="8"
+          min="1"
+          max="500"
+          id="thickness"
+        />
+      </div>
+
+      <div>
+        <label for="stroke_color">Line Color</label>
+        <input type="color" name="" id="stroke_color" />
+      </div>
+
+      <div>
+        <label for="fill_color">Fill Color</label>
+        <input type="color" name="" id="fill_color" value="#ddaa33" />
+      </div>
+
+      <div>
+        <label for="should_fill"> Shape fill </label>
+        <input type="checkbox" id="should_fill" checked />
+      </div>
+    </div>
+    <canvas width="4900" height="2000" style="border: 1px solid grey"></canvas>
+    <script src="src/main.js"></script>
+  </body>
+</html>
