@@ -65,11 +65,11 @@ button {
   &:active,
   &.selected {
     color: rgb(30, 160, 197);
-    --inset-shadow: inset 0 2px 5px 1px #0004;
+    --inset-shadow: inset 0 1px 5px 1px #0006;
 
     & > span {
       display: inline-flex;
-      transform: scale(0.95);
+      transform: scale(0.9);
     }
   }
 }
