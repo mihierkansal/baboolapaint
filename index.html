@@ -319,8 +319,13 @@
           } else if (tool === "triangle_isoceles") {
             undoAllSinceLastMouseDown(); // so we dont have a buncha triangles  all over da place
 
-            ctx.lineTo(x - (x - prevX) / 2, y);
-            ctx.lineTo(x, prevY);
+            // ctx.lineTo(x - (x - prevX) / 2, y);
+            // ctx.lineTo(x, prevY);
+
+            const topPointX = x - (x - prevX) / 2;
+            ctx.moveTo(prevX, y);
+            ctx.lineTo(x, y);
+            ctx.lineTo(topPointX, prevY);
 
             ctx.closePath();
 
