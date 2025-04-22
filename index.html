@@ -36,6 +36,9 @@
         <button id="pen" class="selected" title="Pen">
           <span><i class="fa fa-pen"></i></span>
         </button>
+        <button id="fill" title="Fill">
+          <span><i class="fa fa-fill-drip"></i></span>
+        </button>
         <button id="line" title="Line">
           <span class="custom-icon-parent">
             <svg
@@ -175,6 +178,7 @@
         canvas.onmousedown = (e) => {
           startDraw(e);
         };
+
         canvas.addEventListener("touchstart", (e) => {
           e.preventDefault();
           startDraw(e.touches[0]);
@@ -230,6 +234,10 @@
 
         $("#pen").onclick = (e) => {
           setTool("pen", e);
+        };
+
+        $("#fill").onclick = (e) => {
+          setTool("floodfill", e);
         };
 
         $("#line").onclick = (e) => {
@@ -319,9 +327,6 @@
           } else if (tool === "triangle_isoceles") {
             undoAllSinceLastMouseDown(); // so we dont have a buncha triangles  all over da place
 
-            // ctx.lineTo(x - (x - prevX) / 2, y);
-            // ctx.lineTo(x, prevY);
-
             const topPointX = x - (x - prevX) / 2;
             ctx.moveTo(prevX, y);
             ctx.lineTo(x, y);
@@ -330,6 +335,8 @@
             ctx.closePath();
 
             ctx.stroke();
+          } else if (tool === "floodfill") {
+            fillBucket(x, y, ctx.fillStyle);
           }
           if (shouldFillShape) {
             ctx.fill();
@@ -407,6 +414,112 @@
           link.href = dataURL;
           link.download = "image.png";
           link.click();
+        }
+
+        //Bucket Effect
+        function fillBucket(x, y, fillColor) {
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const pixels = imageData.data;
+          const width = canvas.width;
+          const height = canvas.height;
+
+          const fillRGB = hexToRgb(fillColor);
+          const startIdx = getPixelIndex(x, y, width);
+          const startColor = getColorAt(startIdx, pixels);
+
+          if (colorsMatch(startColor, fillRGB)) return;
+
+          const toProcess = [];
+
+          toProcess.push({ x, y });
+
+          const processed = new Set();
+
+          let count = 0;
+
+          while (toProcess.length > 0 && count < 900000) {
+            count++;
+            const { x, y } = toProcess.pop();
+            let idx = getPixelIndex(x, y, width);
+
+            if (colorsMatch(getColorAt(idx, pixels), startColor)) {
+              fillPixel(idx, pixels, fillRGB);
+
+              processed.add(`${x},${y}`);
+
+              if (
+                x > 0 &&
+                colorsMatch(getColorAt(idx - 4, pixels), startColor) &&
+                !processed.has(`${x - 1},${y}`)
+              ) {
+                toProcess.push({ x: x - 1, y });
+              }
+
+              if (
+                x < width - 1 &&
+                colorsMatch(getColorAt(idx + 4, pixels), startColor) &&
+                !processed.has(`${x + 1},${y}`)
+              ) {
+                toProcess.push({ x: x + 1, y });
+              }
+
+              if (
+                y > 0 &&
+                colorsMatch(getColorAt(idx - width * 4, pixels), startColor) &&
+                !processed.has(`${x},${y - 1}`)
+              ) {
+                toProcess.push({ x, y: y - 1 });
+              }
+
+              if (
+                y < height - 1 &&
+                colorsMatch(getColorAt(idx + width * 4, pixels), startColor) &&
+                !processed.has(`${x},${y + 1}`)
+              ) {
+                toProcess.push({ x, y: y + 1 });
+              }
+            }
+          }
+
+          ctx.putImageData(imageData, 0, 0);
+        }
+
+        function getPixelIndex(x, y, width) {
+          return (y * width + x) * 4;
+        }
+
+        function getColorAt(idx, pixels) {
+          return {
+            r: pixels[idx],
+            g: pixels[idx + 1],
+            b: pixels[idx + 2],
+            a: pixels[idx + 3],
+          };
+        }
+
+        function fillPixel(idx, pixels, color) {
+          pixels[idx] = color.r;
+          pixels[idx + 1] = color.g;
+          pixels[idx + 2] = color.b;
+          pixels[idx + 3] = 255; // Alpha opaco
+        }
+
+        function colorsMatch(color1, color2) {
+          return (
+            color1.r === color2.r &&
+            color1.g === color2.g &&
+            color1.b === color2.b &&
+            color1.a === color2.a
+          );
+        }
+
+        function hexToRgb(hex) {
+          const bigint = parseInt(hex.slice(1), 16);
+          return {
+            r: (bigint >> 16) & 255,
+            g: (bigint >> 8) & 255,
+            b: bigint & 255,
+          };
         }
       });
     </script>
