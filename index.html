@@ -15,9 +15,10 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script type="module" src="src/index.js"></script>
   </head>
   <body>
-    <div id="toolbar">
+    <div class="toolbar">
       <div class="actions">
         <button id="save" title="Save as PNG">
           <span><i class="fa fa-save"></i></span>
@@ -29,6 +30,7 @@
           <span><i class="fa fa-undo"></i></span>
         </button>
       </div>
+      <div class="divider desktop"></div>
       <div class="shape-btns">
         <button id="eraser" title="Eraser">
           <span> <i class="fa fa-eraser"></i></span>
@@ -117,8 +119,9 @@
         </button>
       </div>
 
-      <div>
-        <label for="thickness">Thickness</label>
+      <label>
+        Thickness
+
         <input
           type="range"
           name=""
@@ -127,22 +130,22 @@
           max="500"
           id="thickness"
         />
-      </div>
+      </label>
 
-      <div>
-        <label for="stroke_color">Line Color</label>
+      <label>
+        Line Color
         <input type="color" name="" id="stroke_color" />
-      </div>
+      </label>
 
-      <div>
-        <label for="fill_color">Fill Color</label>
+      <label>
+        Fill Color
         <input type="color" name="" id="fill_color" value="#ddaa33" />
-      </div>
+      </label>
 
-      <div>
-        <label for="should_fill"> Shape fill </label>
+      <label>
+        Shape fill
         <input type="checkbox" id="should_fill" checked />
-      </div>
+      </label>
     </div>
     <canvas width="2000" height="2000" style="border: 1px solid grey"></canvas>
     <script>
