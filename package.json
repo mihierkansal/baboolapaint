@@ -12,6 +12,6 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "baboolastyles": "^0.0.5"
+    "baboolastyles": "^0.0.6"
   }
 }
